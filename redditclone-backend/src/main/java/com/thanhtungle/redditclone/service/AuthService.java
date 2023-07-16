@@ -1,5 +1,6 @@
 package com.thanhtungle.redditclone.service;
 
+import com.thanhtungle.redditclone.exception.ServiceException;
 import com.thanhtungle.redditclone.model.dto.RegisterRequest;
 import com.thanhtungle.redditclone.model.entity.NotificationEmail;
 import com.thanhtungle.redditclone.model.entity.User;
@@ -7,12 +8,12 @@ import com.thanhtungle.redditclone.model.entity.VerificationToken;
 import com.thanhtungle.redditclone.repository.UserRepository;
 import com.thanhtungle.redditclone.repository.VerificationTokenRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,7 +28,6 @@ public class AuthService {
     @Transactional
     public void signup(RegisterRequest registerRequest) {
         User user = new User();
-
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -52,8 +52,24 @@ public class AuthService {
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(token);
         verificationToken.setUser(user);
-
         verificationTokenRepository.save(verificationToken);
+
         return token;
+    }
+
+    public void verifyAccount(String token) {
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        verificationToken.orElseThrow(() -> new ServiceException("Invalid token."));
+        fetchUserAndEnable(verificationToken.get());
+    }
+
+    @Transactional
+    private void fetchUserAndEnable(VerificationToken verificationToken) {
+        String username = verificationToken.getUser().getUsername();
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new ServiceException("User cannot be found with username - " + username)
+        );
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

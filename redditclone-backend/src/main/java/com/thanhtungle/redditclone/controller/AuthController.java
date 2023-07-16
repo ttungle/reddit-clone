@@ -20,9 +20,24 @@ public class AuthController {
     public ResponseEntity<BaseResponseWithoutData> signup(@RequestBody RegisterRequest registerRequest) {
         authService.signup(registerRequest);
 
-        return new ResponseEntity<>(
-                new BaseResponseWithoutData(HttpStatus.OK.value(),
-                                    "User registration successfully."), HttpStatus.OK);
+        BaseResponseWithoutData responseBody = BaseResponseWithoutData.builder()
+                .status(HttpStatus.OK.value())
+                .message("User registration successfully.")
+                .build();
+
+        return ResponseEntity.ok().body(responseBody);
+    }
+
+    @GetMapping("/accountVerification/{token}")
+    public ResponseEntity<BaseResponseWithoutData> verifyAccount(@PathVariable String token) {
+        authService.verifyAccount(token);
+
+        BaseResponseWithoutData responseBody = BaseResponseWithoutData.builder()
+                .status(HttpStatus.OK.value())
+                .message("Account activated successfully.")
+                .build();
+
+        return ResponseEntity.ok().body(responseBody);
     }
 
 }
