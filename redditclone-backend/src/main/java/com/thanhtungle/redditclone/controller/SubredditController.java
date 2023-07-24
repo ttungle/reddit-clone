@@ -2,6 +2,7 @@ package com.thanhtungle.redditclone.controller;
 
 import com.thanhtungle.redditclone.model.dto.SubredditDto;
 import com.thanhtungle.redditclone.service.SubredditService;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

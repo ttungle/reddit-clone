@@ -1,5 +1,6 @@
 package com.thanhtungle.redditclone.service.impl;
 
+import com.thanhtungle.redditclone.mapper.SubredditMapper;
 import com.thanhtungle.redditclone.model.dto.SubredditDto;
 import com.thanhtungle.redditclone.model.entity.Subreddit;
 import com.thanhtungle.redditclone.repository.SubredditRepository;
@@ -16,29 +17,16 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class SubredditServiceImpl implements SubredditService {
 
-    private SubredditRepository subredditRepository;
+    private final SubredditRepository subredditRepository;
+    private final SubredditMapper subredditMapper;
 
     public SubredditDto save (SubredditDto subredditDto) {
-        Subreddit newSubreddit = subredditRepository.save(mapSubredditDto(subredditDto));
+        Subreddit newSubreddit = subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
         subredditDto.setId(newSubreddit.getId());
         return subredditDto;
     }
 
-    private Subreddit mapSubredditDto(SubredditDto subredditDto) {
-        return Subreddit.builder().name(subredditDto.getName())
-                .description(subredditDto.getDescription())
-                .build();
-    }
-
     public List<SubredditDto> getAll() {
-        return subredditRepository.findAll().stream().map(this::mapToDto).collect(toList());
-    }
-
-    private SubredditDto mapToDto(Subreddit subreddit) {
-        return SubredditDto.builder()
-                .name(subreddit.getName())
-                .id(subreddit.getId())
-                .totalPosts(subreddit.getPosts().size())
-                .build();
+        return subredditRepository.findAll().stream().map(subredditMapper::mapSubredditToDto).collect(toList());
     }
 }
