@@ -17,7 +17,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,9 +93,17 @@ public class AuthServiceImpl implements AuthService {
            User user = userRepository.findByUsername(loginRequestBody.getUsername()).orElseThrow(() ->
                    new NotFoundException("User with username" + loginRequestBody.getUsername() + " could not be found.")
            );
-           user.setPassword(null);
+
            String token = tokenService.generateToken(auth);
 
            return new AuthenticationResponseDto(user, token);
     }
+
+    @Override
+    public User getCurrentUser() {
+        Jwt principal = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(principal.getSubject()).orElseThrow(
+                () -> new NotFoundException("No user found with that id.")
+        );
+    };
 }

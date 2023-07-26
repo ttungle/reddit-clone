@@ -1,4 +1,4 @@
-package com.thanhtungle.redditclone.model.response.success;
+package com.thanhtungle.redditclone.model.response;
 
 import lombok.*;
 

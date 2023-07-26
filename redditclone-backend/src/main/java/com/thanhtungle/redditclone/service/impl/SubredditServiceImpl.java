@@ -1,5 +1,6 @@
 package com.thanhtungle.redditclone.service.impl;
 
+import com.thanhtungle.redditclone.exception.NotFoundException;
 import com.thanhtungle.redditclone.mapper.SubredditMapper;
 import com.thanhtungle.redditclone.model.dto.SubredditDto;
 import com.thanhtungle.redditclone.model.entity.Subreddit;
@@ -28,5 +29,11 @@ public class SubredditServiceImpl implements SubredditService {
 
     public List<SubredditDto> getAll() {
         return subredditRepository.findAll().stream().map(subredditMapper::mapSubredditToDto).collect(toList());
+    }
+
+    @Override
+    public SubredditDto getSubreddit(Long id) {
+        Subreddit subreddit = subredditRepository.findById(id).orElseThrow(() -> new NotFoundException("No subreddit found with that id."));
+        return subredditMapper.mapSubredditToDto(subreddit);
     }
 }
