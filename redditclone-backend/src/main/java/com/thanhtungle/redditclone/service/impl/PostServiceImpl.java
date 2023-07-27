@@ -33,7 +33,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void save(PostRequest postRequest) {
-
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName()).orElseThrow(
                 () -> new NotFoundException("No subreddit found with that name.")
         );
@@ -70,7 +69,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostResponse> getPostsByUsername(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new NotFoundException("No user found with that username")
+                () -> new NotFoundException("No user found with that username.")
         );
         List<Post> posts = postRepository.findAllByUser(user);
         return posts.stream().map(postMapper::mapToDto).collect(Collectors.toList());

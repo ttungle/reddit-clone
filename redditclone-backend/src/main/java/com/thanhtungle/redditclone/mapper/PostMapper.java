@@ -11,6 +11,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
+    @Mapping(target = "postName", source = "postRequest.name")
+    @Mapping(target = "subreddit", source = "subreddit")
+    @Mapping(target = "user", source = "user")
     @Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
     @Mapping(target = "description", source = "postRequest.description")
     Post mapToPost(PostRequest postRequest, Subreddit subreddit, User user);

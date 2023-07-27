@@ -1,8 +1,8 @@
 package com.thanhtungle.redditclone.controller;
 
-import com.thanhtungle.redditclone.model.entity.Post;
 import com.thanhtungle.redditclone.model.request.PostRequest;
 import com.thanhtungle.redditclone.model.response.BaseApiResponse;
+import com.thanhtungle.redditclone.model.response.BaseResponseWithoutData;
 import com.thanhtungle.redditclone.model.response.PostResponse;
 import com.thanhtungle.redditclone.service.PostService;
 import lombok.AllArgsConstructor;
@@ -20,9 +20,14 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody PostRequest postRequest) {
+    public ResponseEntity<BaseResponseWithoutData> createPost(@RequestBody PostRequest postRequest) {
         postService.save(postRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
+        BaseResponseWithoutData response = new BaseResponseWithoutData();
+        response.setStatus(HttpStatus.CREATED.value());
+        response.setMessage("Post created successfully.");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
@@ -52,8 +57,8 @@ public class PostController {
         return ResponseEntity.ok().body(baseApiResponse);
     }
 
-    @GetMapping("/user/{name}")
-    public ResponseEntity<BaseApiResponse<List<PostResponse>> > getPostsByUsername(String username) {
+    @GetMapping("/user/{username}")
+    public ResponseEntity<BaseApiResponse<List<PostResponse>> > getPostsByUsername(@PathVariable String username) {
         BaseApiResponse<List<PostResponse>> baseApiResponse = new BaseApiResponse<>();
         baseApiResponse.setStatus(HttpStatus.OK.value());
         baseApiResponse.setData(postService.getPostsByUsername(username));
