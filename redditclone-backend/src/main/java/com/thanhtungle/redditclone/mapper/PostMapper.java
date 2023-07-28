@@ -3,8 +3,8 @@ package com.thanhtungle.redditclone.mapper;
 import com.thanhtungle.redditclone.model.entity.Post;
 import com.thanhtungle.redditclone.model.entity.Subreddit;
 import com.thanhtungle.redditclone.model.entity.User;
-import com.thanhtungle.redditclone.model.request.PostRequest;
-import com.thanhtungle.redditclone.model.response.PostResponse;
+import com.thanhtungle.redditclone.model.request.post.PostRequest;
+import com.thanhtungle.redditclone.model.response.post.PostResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

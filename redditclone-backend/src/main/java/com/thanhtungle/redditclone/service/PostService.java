@@ -1,9 +1,7 @@
 package com.thanhtungle.redditclone.service;
 
-import com.thanhtungle.redditclone.model.entity.Post;
-import com.thanhtungle.redditclone.model.request.PostRequest;
-import com.thanhtungle.redditclone.model.response.PostResponse;
-import org.springframework.http.ResponseEntity;
+import com.thanhtungle.redditclone.model.request.post.PostRequest;
+import com.thanhtungle.redditclone.model.response.post.PostResponse;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.thanhtungle.redditclone.controller;
 
-import com.thanhtungle.redditclone.model.request.PostRequest;
+import com.thanhtungle.redditclone.model.request.post.PostRequest;
 import com.thanhtungle.redditclone.model.response.BaseApiResponse;
 import com.thanhtungle.redditclone.model.response.BaseResponseWithoutData;
-import com.thanhtungle.redditclone.model.response.PostResponse;
+import com.thanhtungle.redditclone.model.response.post.PostResponse;
 import com.thanhtungle.redditclone.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,6 @@ public class PostController {
     @PostMapping
     public ResponseEntity<BaseResponseWithoutData> createPost(@RequestBody PostRequest postRequest) {
         postService.save(postRequest);
-
         BaseResponseWithoutData response = new BaseResponseWithoutData();
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("Post created successfully.");

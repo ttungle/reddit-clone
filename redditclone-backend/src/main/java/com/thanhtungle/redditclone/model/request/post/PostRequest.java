@@ -1,4 +1,4 @@
-package com.thanhtungle.redditclone.model.request;
+package com.thanhtungle.redditclone.model.request.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

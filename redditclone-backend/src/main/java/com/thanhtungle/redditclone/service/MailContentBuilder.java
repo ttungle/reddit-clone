@@ -2,7 +2,6 @@ package com.thanhtungle.redditclone.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -12,7 +11,7 @@ public class MailContentBuilder {
 
     private final TemplateEngine templateEngine;
 
-    String build(String message) {
+    public String build(String message) {
         Context context = new Context();
         context.setVariable("message", message);
 
