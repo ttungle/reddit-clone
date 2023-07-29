@@ -3,7 +3,6 @@ package com.thanhtungle.redditclone.model.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.hibernate.annotations.CollectionId;
 import org.springframework.lang.Nullable;
 
 import java.time.Instant;
@@ -37,7 +36,7 @@ public class Post {
     private String description;
 
     @Column(name = "vote_count")
-    private Integer voteCount;
+    private Integer voteCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")

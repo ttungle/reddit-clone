@@ -80,7 +80,7 @@ public class AuthServiceImpl implements AuthService {
     private void fetchUserAndEnable(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new ServiceException("User cannot be found with username - " + username)
+                () -> new NotFoundException("No user found with username - " + username)
         );
         user.setEnabled(true);
         userRepository.save(user);

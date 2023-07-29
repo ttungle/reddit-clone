@@ -1,9 +1,14 @@
 package com.thanhtungle.redditclone.repository;
 
+import com.thanhtungle.redditclone.model.entity.Post;
+import com.thanhtungle.redditclone.model.entity.User;
 import com.thanhtungle.redditclone.model.entity.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Long> {
+    Optional<Vote> findTopByPostAndUserOrderByVoteIdDesc(Post post, User currentUser);
 }

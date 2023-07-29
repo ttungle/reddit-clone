@@ -17,6 +17,22 @@ public class AppExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ExceptionHandler(ServiceException.class)
+    ResponseEntity<BaseResponseWithoutData> handleServiceException(ServiceException exc) {
+        BaseResponseWithoutData error = new BaseResponseWithoutData();
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMessage(exc.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(InvalidArgumentException.class)
+    ResponseEntity<BaseResponseWithoutData> handleInvalidArgumentException(InvalidArgumentException exc) {
+        BaseResponseWithoutData error = new BaseResponseWithoutData();
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMessage(exc.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(Exception.class)
     ResponseEntity<BaseResponseWithoutData> handleException(Exception exc) {
         BaseResponseWithoutData error = new BaseResponseWithoutData();
