@@ -4,6 +4,7 @@ import com.thanhtungle.redditclone.model.dto.AuthenticationResponseDto;
 import com.thanhtungle.redditclone.model.dto.LoginRequestDto;
 import com.thanhtungle.redditclone.model.dto.RegisterRequestDto;
 import com.thanhtungle.redditclone.model.entity.User;
+import com.thanhtungle.redditclone.model.request.authentication.RefreshTokenRequest;
 
 public interface AuthService {
 
@@ -14,4 +15,6 @@ public interface AuthService {
     public AuthenticationResponseDto login(LoginRequestDto loginRequest);
 
     public User getCurrentUser();
+
+    AuthenticationResponseDto refreshToken(RefreshTokenRequest refreshTokenRequest);
 }

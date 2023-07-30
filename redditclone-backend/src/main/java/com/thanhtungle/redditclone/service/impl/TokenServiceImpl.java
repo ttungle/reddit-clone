@@ -24,7 +24,7 @@ public class TokenServiceImpl implements TokenService {
         return generateTokenWithUsername(authentication.getName(), authentication.isAuthenticated());
     }
 
-    private String generateTokenWithUsername(String name, boolean authenticated) {
+    public String generateTokenWithUsername(String name, boolean authenticated) {
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
@@ -39,4 +39,7 @@ public class TokenServiceImpl implements TokenService {
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     };
 
+    public Long getJwtExpirationInMillis() {
+        return jwtExpirationInMillis;
+    }
 }

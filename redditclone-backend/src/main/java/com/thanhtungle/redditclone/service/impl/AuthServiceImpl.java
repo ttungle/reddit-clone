@@ -8,10 +8,12 @@ import com.thanhtungle.redditclone.model.dto.RegisterRequestDto;
 import com.thanhtungle.redditclone.model.entity.NotificationEmail;
 import com.thanhtungle.redditclone.model.entity.User;
 import com.thanhtungle.redditclone.model.entity.VerificationToken;
+import com.thanhtungle.redditclone.model.request.authentication.RefreshTokenRequest;
 import com.thanhtungle.redditclone.repository.UserRepository;
 import com.thanhtungle.redditclone.repository.VerificationTokenRepository;
 import com.thanhtungle.redditclone.service.AuthService;
 import com.thanhtungle.redditclone.service.MailService;
+import com.thanhtungle.redditclone.service.RefreshTokenService;
 import com.thanhtungle.redditclone.service.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
     public void signup(RegisterRequestDto registerRequest) {
@@ -96,7 +99,7 @@ public class AuthServiceImpl implements AuthService {
 
            String token = tokenService.generateToken(auth);
 
-           return new AuthenticationResponseDto(user, token);
+           return new AuthenticationResponseDto(user, token, refreshTokenService.generateRefreshToken().getToken());
     }
 
     @Override
@@ -105,5 +108,21 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.findByUsername(principal.getSubject()).orElseThrow(
                 () -> new NotFoundException("No user found with that id.")
         );
-    };
+    }
+
+    @Override
+    public AuthenticationResponseDto refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = tokenService.generateTokenWithUsername(
+                refreshTokenRequest.getUser().getUsername(),
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+        );
+        return new AuthenticationResponseDto(
+                refreshTokenRequest.getUser(),
+                token,
+                refreshTokenRequest.getRefreshToken()
+        );
+    }
+
+    ;
 }

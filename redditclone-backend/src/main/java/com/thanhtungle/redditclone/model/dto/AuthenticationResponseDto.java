@@ -12,4 +12,5 @@ public class AuthenticationResponseDto {
 
     private User user;
     private String accessToken;
+    private String refreshToken;
 }
