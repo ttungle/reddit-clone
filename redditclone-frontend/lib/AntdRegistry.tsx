@@ -7,7 +7,13 @@ import { useServerInsertedHTML } from 'next/navigation';
 const StyledComponentsRegistry = ({ children }: { children: React.ReactNode }) => {
   const [cache] = useState(() => createCache());
 
+  const render = <>{children}</>;
+
   useServerInsertedHTML(() => <style id='antd' dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }} />);
+
+  if (typeof window !== 'undefined') {
+    return render;
+  }
 
   return <StyleProvider cache={cache}>{children}</StyleProvider>;
 };

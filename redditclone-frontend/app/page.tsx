@@ -1,10 +1,26 @@
-import { Button } from 'antd';
+'use client';
+
+import { Breadcrumb, Button, Layout, Menu } from 'antd';
 import Image from 'next/image';
+
+const { Header, Content, Footer } = Layout;
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <Button type='primary'>Home Page</Button>
-    </main>
+    <>
+      <Layout className='layout'>
+        <Header className='flex items-center justify-between'>
+          <div className='flex items-center'>
+            <Image alt='logo' src='/reddit-logo.svg' width={32} height={32} />
+            <Image alt='logo' src='/reddit-logo-text.svg' width={57} height={18} style={{ marginLeft: '8px' }} />
+          </div>
+
+          <Button type='primary'>Login</Button>
+        </Header>
+        <Content style={{ padding: '0 50px' }}>
+          <div className='site-layout-content'></div>
+        </Content>
+      </Layout>
+    </>
   );
 }
