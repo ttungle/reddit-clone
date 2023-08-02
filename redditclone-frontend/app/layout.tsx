@@ -1,7 +1,10 @@
+import { NavBar } from '@/components/common/navbar';
 import { AntdStyleProvider } from '@/lib/AntdStyleProvider';
+import { Layout } from 'antd';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
+import { AppContent } from '@/components/common/content';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,9 +17,14 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <main className='app'>
-          <AntdStyleProvider>{children}</AntdStyleProvider>
-        </main>
+        <AntdStyleProvider>
+          <Layout className='layout'>
+            <NavBar />
+            <AppContent>
+              <main className='app'>{children}</main>
+            </AppContent>
+          </Layout>
+        </AntdStyleProvider>
       </body>
     </html>
   );
