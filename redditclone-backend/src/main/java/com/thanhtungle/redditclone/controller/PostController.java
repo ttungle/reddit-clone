@@ -5,6 +5,10 @@ import com.thanhtungle.redditclone.model.response.BaseApiResponse;
 import com.thanhtungle.redditclone.model.response.BaseResponseWithoutData;
 import com.thanhtungle.redditclone.model.response.post.PostResponse;
 import com.thanhtungle.redditclone.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/posts")
 @AllArgsConstructor
+@SecurityRequirement(name = "BearerAuth")
+@Tag(name = "Posts")
 public class PostController {
 
     private final PostService postService;
@@ -39,6 +45,10 @@ public class PostController {
     }
 
     @GetMapping
+    @Operation(responses = {
+            @ApiResponse(description = "Success", responseCode = "200"),
+            @ApiResponse(description = "Unauthorized / Invalid token", responseCode = "403")
+    })
     public ResponseEntity<BaseApiResponse<List<PostResponse>>> getAllPosts() {
         BaseApiResponse<List<PostResponse>> baseApiResponse = new BaseApiResponse<>();
         baseApiResponse.setStatus(HttpStatus.OK.value());

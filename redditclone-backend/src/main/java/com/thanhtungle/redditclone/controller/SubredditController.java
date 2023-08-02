@@ -2,6 +2,9 @@ package com.thanhtungle.redditclone.controller;
 
 import com.thanhtungle.redditclone.model.dto.SubredditDto;
 import com.thanhtungle.redditclone.service.SubredditService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,11 +17,13 @@ import java.util.List;
 @RequestMapping("/api/v1/subreddits")
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "Subreddits")
 public class SubredditController {
 
     private final SubredditService subredditService;
 
     @PostMapping
+    @Operation(security = {@SecurityRequirement(name = "BearerAuth")})
     public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto Subreddit) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(subredditService.save(Subreddit));

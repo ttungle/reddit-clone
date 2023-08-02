@@ -4,6 +4,8 @@ import com.thanhtungle.redditclone.model.dto.CommentDto;
 import com.thanhtungle.redditclone.model.response.BaseApiResponse;
 import com.thanhtungle.redditclone.model.response.BaseResponseWithoutData;
 import com.thanhtungle.redditclone.service.CommentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/comments")
 @AllArgsConstructor
+@SecurityRequirement(name = "BearerAuth")
+@Tag(name = "Comments")
 public class CommentsController {
 
     private final CommentService commentService;

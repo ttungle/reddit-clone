@@ -7,6 +7,9 @@ import com.thanhtungle.redditclone.model.request.authentication.RefreshTokenRequ
 import com.thanhtungle.redditclone.model.response.BaseResponseWithoutData;
 import com.thanhtungle.redditclone.service.AuthService;
 import com.thanhtungle.redditclone.service.RefreshTokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +20,20 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/api/v1/auth")
 @AllArgsConstructor
+@Tag(name = "Authentication")
 public class AuthController {
 
     private AuthService authService;
     private RefreshTokenService refreshTokenService;
 
     @PostMapping("/signup")
+    @Operation(
+            summary = "Signup with email, username and password.",
+            description = "Signup and receive and verification token.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Body contains: email, username and password."
+            )
+    )
     public ResponseEntity<BaseResponseWithoutData> signup(@RequestBody RegisterRequestDto registerRequest) {
         authService.signup(registerRequest);
 
@@ -35,6 +46,15 @@ public class AuthController {
     }
 
     @GetMapping("/accountVerification/{token}")
+    @Operation(
+            summary = "Verify the user with verification token.",
+            description = "To active, the user need to verify the account after registration.",
+            parameters = {@Parameter(
+                    name = "token",
+                    description = "The verification token that receive via email.",
+                    example = "abc-123")
+            }
+    )
     public ResponseEntity<BaseResponseWithoutData> verifyAccount(@PathVariable String token) {
         authService.verifyAccount(token);
 
