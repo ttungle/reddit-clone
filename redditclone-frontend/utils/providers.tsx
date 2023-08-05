@@ -10,6 +10,7 @@ export interface ProvidersProps {
 
 export default function Providers({ children }: ProvidersProps) {
   const [client] = React.useState(new QueryClient());
+
   return (
     <QueryClientProvider client={client}>
       <AntdStyleProvider>{children}</AntdStyleProvider>

@@ -1,33 +1,67 @@
 'use client';
 
 import { authApi } from '@/api';
-import { LoginRequestDto } from '@/client-codegen-api';
+import { LoginRequestDto, RegisterRequestDto } from '@/client-codegen-api';
 import { useAuthStore } from '@/stores';
-import { useMutation } from '@tanstack/react-query';
-import { Modal, Typography } from 'antd';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Modal, Typography, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useState } from 'react';
 import { LoginForm } from './login-form';
 import { RegisterForm } from './register-form';
 
-export interface AuthenticationModelProps {
+export interface AuthenticationModalProps {
   authModalOpen: boolean;
   setAuthModalOpen: (isOpen: boolean) => void;
 }
 
 const { Text, Link } = Typography;
 
-export function AuthenticationModel({ authModalOpen, setAuthModalOpen }: AuthenticationModelProps) {
+export function AuthenticationModal({ authModalOpen, setAuthModalOpen }: AuthenticationModalProps) {
   const [form] = useForm();
-  const { setUser, setAccessToken } = useAuthStore();
+  const queryClient = useQueryClient();
+  const [messageApi, contextHolder] = message.useMessage();
+  const { setAccessToken, setRefreshToken } = useAuthStore((state) => ({
+    setAccessToken: state.actions.setAccessToken,
+    setRefreshToken: state.actions.setRefreshToken,
+  }));
   const [isLogin, setIsLogin] = useState(false);
 
   const { mutate: loginMutate } = useMutation({
     mutationKey: ['login'],
     mutationFn: async (payload: LoginRequestDto) => await authApi.login(payload),
     onSuccess: (data: any) => {
-      setUser(data?.user);
       setAccessToken(data?.accessToken);
+      setRefreshToken(data?.refreshToken);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      setAuthModalOpen(false);
+      form.resetFields();
+    },
+    onError: (error: any) => {
+      messageApi.open({
+        type: 'error',
+        content: error?.response?.data?.message ?? 'Failed to login.',
+      });
+    },
+  });
+
+  const { mutate: registerMutate } = useMutation({
+    mutationKey: ['register'],
+    mutationFn: async (payload: RegisterRequestDto) => await authApi.signup(payload),
+    onSuccess: (data: any) => {
+      setAuthModalOpen(false);
+      form.resetFields();
+      messageApi.open({
+        type: 'success',
+        content:
+          (data?.message ?? 'Signed up successfully.') + '. Please verify your account by clicking link in your email',
+      });
+    },
+    onError: (error: any) => {
+      messageApi.open({
+        type: 'error',
+        content: error?.response?.data?.message ?? 'Failed to sign up.',
+      });
     },
   });
 
@@ -38,24 +72,32 @@ export function AuthenticationModel({ authModalOpen, setAuthModalOpen }: Authent
 
   const handleFinish = (values: any) => {
     if (values?.email) {
-      console.log('>>> register');
+      const registerData: RegisterRequestDto = {
+        email: values?.email,
+        username: values?.username,
+        password: values?.password,
+      };
+      registerMutate(registerData);
+      return;
     }
 
     const loginData: LoginRequestDto = {
       username: values?.username,
       password: values?.password,
     };
-
     loginMutate(loginData);
-    setAuthModalOpen(false);
   };
 
   const handleFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    messageApi.open({
+      type: 'error',
+      content: errorInfo?.message ?? errorInfo,
+    });
   };
 
   return (
     <>
+      {contextHolder}
       <Modal
         title={isLogin ? 'Login' : 'Sign Up'}
         centered

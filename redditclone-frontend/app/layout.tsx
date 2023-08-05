@@ -1,11 +1,11 @@
 import { AppContent } from '@/components/common/app-content';
 import { NavBar } from '@/components/common/navbar';
+import Providers from '@/utils/providers';
 import { Layout } from 'antd';
 import 'antd/dist/reset.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import Providers from '@/utils/providers';
 
 const inter = Inter({ subsets: ['latin'] });
 

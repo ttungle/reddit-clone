@@ -1,11 +1,14 @@
 'use client';
 
-import { AuthenticationModel } from '@/components/auth/authentication-model';
+import { authApi, userApi } from '@/api';
+import { RefreshTokenRequest } from '@/client-codegen-api';
+import { AuthenticationModal } from '@/components/auth/authentication-modal';
 import { useAuthStore } from '@/stores';
-import { Avatar, Button, Dropdown, Layout, MenuProps, Popover } from 'antd';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Avatar, Button, Dropdown, Layout, MenuProps } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
 
 const { Header } = Layout;
@@ -14,8 +17,42 @@ export interface NavBarProps {}
 
 export function NavBar(props: NavBarProps) {
   const [form] = useForm();
-  const user = useAuthStore((state) => state.user);
+  const queryClient = useQueryClient();
+  const { user, refreshToken, setUser, clearToken } = useAuthStore((state) => ({
+    user: state.user,
+    refreshToken: state.refreshToken,
+    setUser: state.actions.setUser,
+    clearToken: state.actions.clearToken,
+  }));
   const [authModalOpen, setAuthModalOpen] = useState(false);
+
+  const { data: userData, error } = useQuery({
+    queryKey: ['user'],
+    queryFn: async () => await userApi.getMe(),
+    retry: 1,
+    enabled: typeof window !== 'undefined' && Boolean(localStorage?.getItem('access_token')),
+  });
+
+  const { mutate: logoutMutate } = useMutation({
+    mutationKey: ['logout'],
+    mutationFn: async (payload: RefreshTokenRequest) => await authApi.logout(payload),
+  });
+
+  useEffect(() => {
+    if (userData?.data && (error as any)?.response?.status !== 401) setUser(userData.data);
+    if ((error as any)?.response?.status === 401) setUser(undefined);
+  }, [userData, refreshToken, error]);
+
+  const handleLogoutClick = () => {
+    if (refreshToken) logoutMutate({ refreshToken, user });
+    queryClient.invalidateQueries({ queryKey: ['user'] });
+    clearToken();
+  };
+
+  const handleOpenLoginDialog = () => {
+    setAuthModalOpen(true);
+    form.resetFields();
+  };
 
   const items = useMemo<MenuProps['items']>(
     () => [
@@ -27,15 +64,11 @@ export function NavBar(props: NavBarProps) {
       {
         key: '1',
         label: <span className='px-4'>Logout</span>,
+        onClick: handleLogoutClick,
       },
     ],
     [user]
   );
-
-  const handleOpenLoginDialog = () => {
-    setAuthModalOpen(true);
-    form.resetFields();
-  };
 
   return (
     <>
@@ -58,7 +91,7 @@ export function NavBar(props: NavBarProps) {
         )}
       </Header>
 
-      <AuthenticationModel authModalOpen={authModalOpen} setAuthModalOpen={setAuthModalOpen} />
+      <AuthenticationModal authModalOpen={authModalOpen} setAuthModalOpen={setAuthModalOpen} />
     </>
   );
 }
