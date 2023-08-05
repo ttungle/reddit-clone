@@ -1,10 +1,11 @@
+import { AppContent } from '@/components/common/app-content';
 import { NavBar } from '@/components/common/navbar';
-import { AntdStyleProvider } from '@/lib/AntdStyleProvider';
 import { Layout } from 'antd';
+import 'antd/dist/reset.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import { AppContent } from '@/components/common/content';
+import Providers from '@/utils/providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,14 +18,14 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <AntdStyleProvider>
+        <Providers>
           <Layout className='layout'>
             <NavBar />
             <AppContent>
               <main className='app'>{children}</main>
             </AppContent>
           </Layout>
-        </AntdStyleProvider>
+        </Providers>
       </body>
     </html>
   );
