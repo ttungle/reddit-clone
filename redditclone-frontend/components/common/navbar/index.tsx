@@ -14,7 +14,7 @@ export interface NavBarProps {}
 
 export function NavBar(props: NavBarProps) {
   const [form] = useForm();
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const items = useMemo<MenuProps['items']>(
