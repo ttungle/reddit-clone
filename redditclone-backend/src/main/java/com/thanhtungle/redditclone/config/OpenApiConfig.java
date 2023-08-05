@@ -13,7 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
                 @Tag(name = "Authentication", description = "Register and login user."),
                 @Tag(name = "Subreddits", description = "Create and get subreddits."),
                 @Tag(name = "Comments", description = "Create and get comments."),
-                @Tag(name = "Votes", description = "Create and get votes.")
+                @Tag(name = "Votes", description = "Create and get votes."),
+                @Tag(name = "Users", description = "Create and get users.")
         }
 )
 @SecurityScheme(name = "BearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT",

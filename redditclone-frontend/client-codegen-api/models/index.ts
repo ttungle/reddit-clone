@@ -2,6 +2,7 @@ export * from './authentication-response-dto';
 export * from './base-api-response-list-comment-dto';
 export * from './base-api-response-list-post-response';
 export * from './base-api-response-post-response';
+export * from './base-api-response-user';
 export * from './base-response-without-data';
 export * from './comment-dto';
 export * from './login-request-dto';

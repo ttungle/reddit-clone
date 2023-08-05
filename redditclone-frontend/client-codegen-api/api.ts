@@ -14,5 +14,6 @@
 export * from './apis/comments-api';
 export * from './apis/posts-api';
 export * from './apis/subreddits-api';
+export * from './apis/users-api';
 export * from './apis/votes-api';
 
