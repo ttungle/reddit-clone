@@ -72,15 +72,15 @@ export function NavBar(props: NavBarProps) {
 
   return (
     <>
-      <Header className='flex items-center justify-between'>
+      <Header className='fixed top-0 left-0 right-0 z-[999] flex items-center justify-between'>
         <div className='flex items-center'>
           <Image alt='logo' src='/reddit-logo.svg' width={32} height={32} />
-          <Image alt='logo' src='/reddit-logo-text.svg' width={57} height={18} style={{ marginLeft: '8px' }} />
+          <Image alt='logo' src='/reddit-logo-text.svg' width={57} height={18} className='ml-2' />
         </div>
 
         {user?.userId && (
           <Dropdown menu={{ items }} placement='bottomRight' arrow={{ pointAtCenter: true }}>
-            <Avatar icon={<AiOutlineUser />} style={{ backgroundColor: '#fde3cf', color: '#fa420f' }} />
+            <Avatar icon={<AiOutlineUser />} className='bg-[#fde3cf] text-[#fa420f]' />
           </Dropdown>
         )}
 

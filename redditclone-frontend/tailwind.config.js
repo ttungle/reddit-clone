@@ -10,7 +10,12 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: '0px',
+      },
+    },
   },
   plugins: [],
+  important: true,
 };
