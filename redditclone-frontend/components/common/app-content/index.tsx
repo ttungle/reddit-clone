@@ -6,7 +6,7 @@ import { AiOutlineStock } from 'react-icons/ai';
 import { IoTrendingUp } from 'react-icons/io5';
 import { TbHome } from 'react-icons/tb';
 import { CreatePost } from '../create-post';
-import { RecentPost } from '../recent-post';
+import { PopularSubreddit } from '../popular-subreddit';
 
 const { Content, Sider } = Layout;
 
@@ -33,11 +33,11 @@ export function AppContent({ children }: AppContentProps) {
       children: [
         {
           key: 'business-1',
-          label: 'Option 1',
+          label: 'Tesla',
         },
         {
           key: 'business-2',
-          label: 'Option 2',
+          label: 'Best Buy',
         },
       ],
     },
@@ -46,14 +46,8 @@ export function AppContent({ children }: AppContentProps) {
   return (
     <Content className='lg:container lg:mx-auto lg:px-36 xs:px-0 mt-28'>
       <Layout>
-        <Sider width={200} className='xs:hidden xl:block'>
-          <Menu
-            mode='inline'
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%' }}
-            items={items}
-          />
+        <Sider width={200} className='sticky top-28 xs:hidden xl:block' style={{ height: '70vh' }}>
+          <Menu mode='inline' defaultSelectedKeys={['home']} style={{ height: '70vh' }} items={items} />
         </Sider>
 
         <Content className='px-6 min-h-[280px]'>
@@ -62,7 +56,7 @@ export function AppContent({ children }: AppContentProps) {
 
         <div className='xs:hidden xl:block w-[310px]'>
           <CreatePost />
-          <RecentPost />
+          <PopularSubreddit />
         </div>
       </Layout>
     </Content>

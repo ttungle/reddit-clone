@@ -1,54 +1,52 @@
-import { Avatar, Card, List, Typography } from 'antd';
+'use client';
 
-export interface RecentPostProps {
+import { subredditApi } from '@/api';
+import { useQuery } from '@tanstack/react-query';
+import { Avatar, Card, List, Typography } from 'antd';
+import Link from 'next/link';
+
+export interface PopularSubredditProps {
   data?: any[];
 }
 
-const data = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
+export function PopularSubreddit(props: PopularSubredditProps) {
+  const { data: subredditList } = useQuery({
+    queryKey: ['getSubreddit'],
+    queryFn: async () => await subredditApi.getAllSubreddits(),
+  });
 
-export function RecentPost(props: RecentPostProps) {
   return (
     <Card
       bodyStyle={{ padding: 12, paddingTop: 8 }}
       className='rounded sticky top-[420px] max-h-[650px] cursor-pointer outline-1 outline outline-gray-200 mt-5'
     >
       <Typography.Text strong className='text-xs uppercase'>
-        Recent Posts
+        Popular Subreddits
       </Typography.Text>
       <List
         itemLayout='horizontal'
-        dataSource={data}
-        renderItem={(item, index) => (
+        dataSource={(subredditList as any)?.slice(0, 5) ?? []}
+        renderItem={(item: any, index) => (
           <List.Item>
             <List.Item.Meta
               avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`} />}
               title={
                 <a href='#' className='text-sm hover:underline'>
-                  {item.title}
+                  {item.name}
                 </a>
               }
               description={
                 <Typography.Paragraph className='text-sm text-neutral-400' ellipsis={{ rows: 2, expandable: false }}>
-                  Design, a design language for background applications, is refined by Ant UED
+                  {item?.description}
                 </Typography.Paragraph>
               }
             />
           </List.Item>
         )}
       />
+      <Link href='/subreddits' target='_blank' className='flex justify-end text-xs text-gray-400 hover:text-gray-500'>
+        View more
+      </Link>
     </Card>
   );
 }

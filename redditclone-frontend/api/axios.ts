@@ -58,7 +58,8 @@ const refreshToken = async (error: any) => {
     }
     return axios(error.config);
   } catch (err) {
-    return Promise.reject(err);
+    console.error(err);
+    return;
   }
 };
 

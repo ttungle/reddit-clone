@@ -55,7 +55,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/v1/auth/**")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/posts")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/subreddits")
                         .permitAll()
@@ -98,6 +98,7 @@ public class SecurityConfig {
     }
 
     private static final String[] AUTH_WHITELIST = {
+            "/api/v1/auth/**",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
             "/swagger-ui/**",
