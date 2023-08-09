@@ -17,6 +17,7 @@ axiosClient.interceptors.request.use(
     if (token && config?.url && !config.url.includes('/auth/')) {
       config.headers = {
         Authorization: localStorage.getItem('access_token') ? `Bearer ${localStorage.getItem('access_token')}` : '',
+        'Content-Type': 'application/json',
       } as AxiosRequestHeaders;
     }
 

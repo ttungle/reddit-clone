@@ -21,7 +21,7 @@ export function PopularSubreddit(props: PopularSubredditProps) {
       className='rounded sticky top-[420px] max-h-[650px] cursor-pointer outline-1 outline outline-gray-200 mt-5'
     >
       <Typography.Text strong className='text-xs uppercase'>
-        Popular Subreddits
+        Popular Communities
       </Typography.Text>
       <List
         itemLayout='horizontal'
@@ -44,8 +44,8 @@ export function PopularSubreddit(props: PopularSubredditProps) {
           </List.Item>
         )}
       />
-      <Link href='/subreddits' target='_blank' className='flex justify-end text-xs text-gray-400 hover:text-gray-500'>
-        View more
+      <Link href='/subreddits' target='_self' className='flex justify-end text-xs text-gray-400 hover:text-gray-500'>
+        See more
       </Link>
     </Card>
   );

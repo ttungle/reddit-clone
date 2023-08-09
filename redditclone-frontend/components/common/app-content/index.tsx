@@ -7,6 +7,8 @@ import { IoTrendingUp } from 'react-icons/io5';
 import { TbHome } from 'react-icons/tb';
 import { CreatePost } from '../create-post';
 import { PopularSubreddit } from '../popular-subreddit';
+import { AiOutlineReddit } from 'react-icons/ai';
+import { useRouter, usePathname } from 'next/navigation';
 
 const { Content, Sider } = Layout;
 
@@ -15,16 +17,31 @@ export interface AppContentProps {
 }
 
 export function AppContent({ children }: AppContentProps) {
+  const router = useRouter();
+  const pathParams = usePathname();
+
   const items = [
     {
-      key: 'home',
+      key: '/',
       icon: <TbHome />,
       label: 'Home',
+      onClick: () => router.push('/'),
     },
     {
-      key: 'trend',
+      key: '/trend',
       icon: <IoTrendingUp />,
       label: 'Trend',
+    },
+    {
+      key: '/subreddits',
+      icon: <AiOutlineReddit />,
+      label: 'Subreddits',
+      onClick: () => router.push('/subreddits'),
+    },
+    {
+      key: '',
+      label: '',
+      type: 'group',
     },
     {
       key: 'business',
@@ -47,7 +64,13 @@ export function AppContent({ children }: AppContentProps) {
     <Content className='lg:container lg:mx-auto lg:px-36 xs:px-0 mt-28'>
       <Layout>
         <Sider width={200} className='sticky top-28 xs:hidden xl:block' style={{ height: '70vh' }}>
-          <Menu mode='inline' defaultSelectedKeys={['home']} style={{ height: '70vh' }} items={items} />
+          <Menu
+            mode='inline'
+            selectedKeys={[pathParams]}
+            defaultSelectedKeys={['home']}
+            style={{ height: '70vh' }}
+            items={items}
+          />
         </Sider>
 
         <Content className='px-6 min-h-[280px]'>

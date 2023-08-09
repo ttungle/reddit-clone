@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Avatar, Button, Dropdown, Layout, MenuProps } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
 
@@ -16,6 +17,7 @@ const { Header } = Layout;
 export interface NavBarProps {}
 
 export function NavBar(props: NavBarProps) {
+  const router = useRouter();
   const [form] = useForm();
   const queryClient = useQueryClient();
   const { user, refreshToken, setUser, clearToken } = useAuthStore((state) => ({
@@ -73,7 +75,7 @@ export function NavBar(props: NavBarProps) {
   return (
     <>
       <Header className='fixed top-0 left-0 right-0 z-[999] flex items-center justify-between'>
-        <div className='flex items-center'>
+        <div className='flex items-center cursor-pointer' onClick={() => router.push('/')}>
           <Image alt='logo' src='/reddit-logo.svg' width={32} height={32} />
           <Image alt='logo' src='/reddit-logo-text.svg' width={57} height={18} className='ml-2' />
         </div>
