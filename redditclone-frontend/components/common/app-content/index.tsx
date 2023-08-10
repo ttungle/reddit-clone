@@ -61,14 +61,14 @@ export function AppContent({ children }: AppContentProps) {
   ];
 
   return (
-    <Content className='lg:container lg:mx-auto lg:px-36 xs:px-0 mt-28'>
+    <Content className='lg:container lg:mx-auto lg:px-24 xs:px-0 mt-28 rounded'>
       <Layout>
-        <Sider width={200} className='sticky top-28 xs:hidden xl:block' style={{ height: '70vh' }}>
+        <Sider width={220} className='sticky top-28 xs:hidden xl:block' style={{ height: '85vh' }}>
           <Menu
             mode='inline'
             selectedKeys={[pathParams]}
             defaultSelectedKeys={['home']}
-            style={{ height: '70vh' }}
+            style={{ height: '85vh' }}
             items={items}
           />
         </Sider>

@@ -15,5 +15,5 @@ async function getData() {
 export default async function Home() {
   const data: BaseApiResponseListPostResponse = await getData();
 
-  return <>{data?.data && data?.data.map((post) => <PostItem key={post?.id} data={post} />)}</>;
+  return <>{data?.data && data?.data.map((post) => <PostItem key={post?.id} data={post} className='mb-3' />)}</>;
 }

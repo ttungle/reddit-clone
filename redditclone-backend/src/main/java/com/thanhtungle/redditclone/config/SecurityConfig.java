@@ -55,7 +55,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.GET, "/api/v1/posts")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/posts", "/api/v1/posts/{id}")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/subreddits")
                         .permitAll()

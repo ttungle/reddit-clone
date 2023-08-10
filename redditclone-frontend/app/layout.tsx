@@ -1,4 +1,3 @@
-import { AppContent } from '@/components/common/app-content';
 import { NavBar } from '@/components/common/navbar';
 import Providers from '@/utils/providers';
 import { Layout } from 'antd';
@@ -21,9 +20,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         <Providers>
           <Layout className='layout'>
             <NavBar />
-            <AppContent>
-              <main className='app'>{children}</main>
-            </AppContent>
+            {children}
           </Layout>
         </Providers>
       </body>

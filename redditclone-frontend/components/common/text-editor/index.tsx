@@ -4,9 +4,10 @@ import './index.scss';
 
 export interface TextEditorProps {
   className?: string;
+  placeholder?: string;
 }
 
-export const TextEditorRef = forwardRef(function TextEditor({ className }: TextEditorProps, ref: any) {
+export const TextEditorRef = forwardRef(function TextEditor({ className, placeholder }: TextEditorProps, ref: any) {
   return (
     <div className={className}>
       <Editor
@@ -14,8 +15,8 @@ export const TextEditorRef = forwardRef(function TextEditor({ className }: TextE
         onInit={(evt, editor) => (ref.current = editor)}
         initialValue=''
         init={{
-          height: 500,
-          menubar: true,
+          height: 200,
+          menubar: false,
           plugins: [
             'advlist',
             'autolink',
@@ -42,6 +43,7 @@ export const TextEditorRef = forwardRef(function TextEditor({ className }: TextE
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat | help',
           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+          placeholder,
         }}
       />
     </div>

@@ -2,51 +2,57 @@
 
 import { PostResponse } from '@/client-codegen-api';
 import { Button, Card, Divider, Typography } from 'antd';
-import React from 'react';
+import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaRegMessage } from 'react-icons/fa6';
 import { LiaShareSolid } from 'react-icons/lia';
 import { PiArrowFatDown, PiArrowFatUp, PiGift } from 'react-icons/pi';
+import { PostItemHeader } from './post-item-header';
 
 export interface PostItemProps {
   data: PostResponse;
+  border?: boolean;
+  className?: string;
 }
 
-export function PostItem({ data }: PostItemProps) {
+export function PostItem({ data, border = true, className }: PostItemProps) {
+  const router = useRouter();
+
+  const handlePostClick = () => {
+    router.push(`/posts/${data?.id}`);
+  };
+
   return (
-    <Card className='flex-nowrap w-full max-h-[650px] mb-4 rounded cursor-pointer outline-1 outline outline-gray-200 hover:outline-1 hover:outline-gray-400 hover:outline'>
+    <Card
+      onClick={handlePostClick}
+      className={clsx(
+        'flex-nowrap w-full max-h-[650px] rounded cursor-pointer',
+        {
+          'outline-1 outline outline-gray-200 hover:outline-1 hover:outline-gray-400 hover:outline': border,
+        },
+        className
+      )}
+    >
       <Card.Grid
         hoverable={false}
         className='flex flex-col justify-start items-center bg-gray-50 text-center w-[6%] p-2'
       >
         <PiArrowFatUp className='text-2xl text-gray-400 hover:text-orange-600 hover:bg-gray-200 rounded transition-all' />
-        <Typography.Text className='text-sm font-semibold my-1'>{data.voteCount}</Typography.Text>
+        <Typography.Text className='text-sm font-semibold my-1'>{data.voteCount ?? 0}</Typography.Text>
         <PiArrowFatDown className='text-2xl text-gray-400 hover:text-blue-600 hover:bg-gray-200 rounded transition-all' />
       </Card.Grid>
       <Card.Grid hoverable={false} className='w-[94%] p-0'>
-        <div className='m-2'>
-          <Typography.Text strong className='text-xs'>
-            {data.subredditName}
-          </Typography.Text>
-          <Typography.Text className='text-xs text-neutral-400'>
-            {' '}
-            • Posted by {data.userName} {data.duration}
-          </Typography.Text>
-        </div>
+        <PostItemHeader data={data} />
 
-        <div className='mx-2'>
-          <Typography.Text className='text-lg font-medium' ellipsis>
-            {data.name}
-          </Typography.Text>
-          <Typography.Paragraph
-            className='my-4 text-sm text-neutral-800 leading-6'
-            ellipsis={{ rows: 8, expandable: true, symbol: 'more' }}
-          >
-            <span dangerouslySetInnerHTML={{ __html: data?.description ?? '' }} />
-          </Typography.Paragraph>
-        </div>
+        <Typography.Paragraph
+          className='mx-2 my-4 text-sm text-neutral-800 leading-6'
+          ellipsis={{ rows: 8, expandable: true, symbol: 'more' }}
+        >
+          <span dangerouslySetInnerHTML={{ __html: data?.description ?? '' }} />
+        </Typography.Paragraph>
 
-        <Divider className='my-1' />
+        {border && <Divider className='my-1' />}
 
         <div className='flex items-center justify-start'>
           <Button
@@ -54,7 +60,7 @@ export function PostItem({ data }: PostItemProps) {
             icon={<FaRegMessage className='text-lg text-neutral-500' />}
             className='flex items-center py-4 ml-2 rounded px-1 text-xs font-semibold text-neutral-500'
           >
-            Comments
+            {!data?.commentCount || data?.commentCount <= 0 ? '' : data?.commentCount} Comments
           </Button>
           <Button
             type='text'

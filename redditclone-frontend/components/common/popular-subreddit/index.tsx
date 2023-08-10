@@ -25,7 +25,7 @@ export function PopularSubreddit(props: PopularSubredditProps) {
       </Typography.Text>
       <List
         itemLayout='horizontal'
-        dataSource={(subredditList as any)?.slice(0, 5) ?? []}
+        dataSource={Array.isArray(subredditList) ? (subredditList as any)?.slice(0, 5) : []}
         renderItem={(item: any, index) => (
           <List.Item>
             <List.Item.Meta
