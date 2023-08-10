@@ -3,7 +3,7 @@ import { PostItem } from '@/components/common/post-item';
 import { getApiUrl } from '@/utils';
 
 async function getData() {
-  const res = await fetch(`${getApiUrl('/api/v1')}/posts`);
+  const res = await fetch(`${getApiUrl('/api/v1')}/posts`, { next: { revalidate: 0 } });
 
   if (!res.ok) {
     throw new Error('Failed to get post data.');

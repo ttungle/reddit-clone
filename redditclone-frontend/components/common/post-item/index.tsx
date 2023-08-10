@@ -2,6 +2,7 @@
 
 import { PostResponse } from '@/client-codegen-api';
 import { Button, Card, Divider, Typography } from 'antd';
+import React from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaRegMessage } from 'react-icons/fa6';
 import { LiaShareSolid } from 'react-icons/lia';
@@ -41,7 +42,7 @@ export function PostItem({ data }: PostItemProps) {
             className='my-4 text-sm text-neutral-800 leading-6'
             ellipsis={{ rows: 8, expandable: true, symbol: 'more' }}
           >
-            {data.description}
+            <span dangerouslySetInnerHTML={{ __html: data?.description ?? '' }} />
           </Typography.Paragraph>
         </div>
 

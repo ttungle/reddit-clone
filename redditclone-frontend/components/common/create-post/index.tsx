@@ -2,10 +2,12 @@ import { CreateSubredditModal } from '@/components/home';
 import { useModalStore } from '@/stores';
 import { Button, Card, Divider, Typography } from 'antd';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export interface CreatePostProps {}
 
 export function CreatePost(props: CreatePostProps) {
+  const router = useRouter();
   const setShowCreateSubredditModal = useModalStore((state) => state.actions.setShowCreateSubredditModal);
 
   return (
@@ -38,7 +40,7 @@ export function CreatePost(props: CreatePostProps) {
         </div>
 
         <div className='mx-3 mb-3'>
-          <Button type='primary' block className='text-sm font-medium'>
+          <Button type='primary' block className='text-sm font-medium' onClick={() => router.push('/create-post')}>
             Create Post
           </Button>
           <Button block className='mt-3 text-sm font-medium' onClick={() => setShowCreateSubredditModal(true)}>
