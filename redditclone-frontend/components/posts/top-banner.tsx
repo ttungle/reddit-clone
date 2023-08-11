@@ -17,7 +17,7 @@ export function TopBanner({ postData }: TopBannerProps) {
     <div className='flex items-center bg-black h-12'>
       <div className='container mx-auto flex items-center justify-between'>
         <p className='flex items-center m-0 text-gray-300 text-sm font-medium'>
-          <CgFileDocument />
+          <CgFileDocument className='mr-1' />
           {postData?.name}
         </p>
 

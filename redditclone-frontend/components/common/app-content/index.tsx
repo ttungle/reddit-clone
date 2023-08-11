@@ -1,14 +1,14 @@
 'use client';
 
 import { Layout, Menu } from 'antd';
+import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
-import { AiOutlineStock } from 'react-icons/ai';
+import { AiOutlineReddit, AiOutlineStock } from 'react-icons/ai';
 import { IoTrendingUp } from 'react-icons/io5';
+import { MdSportsBasketball } from 'react-icons/md';
 import { TbHome } from 'react-icons/tb';
 import { CreatePost } from '../create-post';
 import { PopularSubreddit } from '../popular-subreddit';
-import { AiOutlineReddit } from 'react-icons/ai';
-import { useRouter, usePathname } from 'next/navigation';
 
 const { Content, Sider } = Layout;
 
@@ -44,6 +44,53 @@ export function AppContent({ children }: AppContentProps) {
       type: 'group',
     },
     {
+      key: 'sport',
+      icon: <MdSportsBasketball />,
+      label: 'Sport',
+      children: [
+        {
+          key: 'sport-1',
+          label: 'NFL',
+        },
+        {
+          key: 'sport-2',
+          label: 'NBA',
+        },
+        {
+          key: 'sport-3',
+          label: 'Megan Anderson',
+        },
+        {
+          key: 'sport-4',
+          label: 'Atlanta Hawks',
+        },
+        {
+          key: 'sport-5',
+          label: 'Los Angeles Lakers',
+        },
+        {
+          key: 'sport-6',
+          label: 'Boston Celtics',
+        },
+        {
+          key: 'sport-7',
+          label: 'Arsenal F.C.',
+        },
+        {
+          key: 'sport-8',
+          label: 'Philadelphia 76ers',
+        },
+        {
+          key: 'sport-9',
+          label: 'Premier League',
+        },
+        {
+          key: 'sport-10',
+          label: 'UFC',
+        },
+      ],
+    },
+    {
       key: 'business',
       icon: <AiOutlineStock />,
       label: 'Business',
@@ -58,17 +105,58 @@ export function AppContent({ children }: AppContentProps) {
         },
       ],
     },
+    {
+      key: 'Animals and Pets',
+      label: 'Animals and Pets',
+    },
+    {
+      key: 'Anime',
+      label: 'Anime',
+    },
+    {
+      key: 'Art',
+      label: 'Art',
+    },
+    {
+      key: 'Cars and Motor Vehicles',
+      label: 'Cars and Motor Vehicles',
+    },
+    {
+      key: 'Crafts and DIY',
+      label: 'Crafts and DIY',
+    },
+    {
+      key: 'Culture, Race, and Ethnicity',
+      label: 'Culture, Race, and Ethnicity',
+    },
+    {
+      key: 'Ethics and Philosophy',
+      label: 'Ethics and Philosophy',
+    },
+    {
+      key: 'Fashion',
+      label: 'Fashion',
+    },
+    {
+      key: 'Food and Drink',
+      label: 'Food and Drink',
+    },
   ];
 
   return (
-    <Content className='lg:container lg:mx-auto lg:px-24 xs:px-0 mt-28 rounded'>
-      <Layout>
-        <Sider width={220} className='sticky top-28 xs:hidden xl:block' style={{ height: '85vh' }}>
+    <Content className='lg:container lg:mx-auto lg:px-24 xs:px-0 mt-20 rounded '>
+      <Layout className='bg-[#dae0e6]'>
+        <Sider
+          width={220}
+          className='sticky top-20 xs:hidden xl:block rounded'
+          style={{ height: 'calc(100vh - 80px)' }}
+        >
           <Menu
             mode='inline'
             selectedKeys={[pathParams]}
             defaultSelectedKeys={['home']}
-            style={{ height: '85vh' }}
+            className='rounded'
+            style={{ height: 'calc(100vh - 80px)', overflow: 'auto' }}
             items={items}
           />
         </Sider>

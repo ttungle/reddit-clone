@@ -37,9 +37,11 @@ public class VoteServiceImpl implements VoteService {
         }
 
         if (UPVOTE.equals(voteDto.getVoteType())) {
-            post.setVoteCount(post.getVoteCount()  +1);
+            if (post.getVoteCount() == -1) post.setVoteCount(post.getVoteCount() + 2);
+           else post.setVoteCount(post.getVoteCount()  +1);
         } else {
-            post.setVoteCount(post.getVoteCount() - 1);
+            if (post.getVoteCount() == 1) post.setVoteCount(post.getVoteCount() - 2);
+            else post.setVoteCount(post.getVoteCount()  - 1);
         }
         voteRepository.save(mapToVote(voteDto, post));
         postRepository.save(post);

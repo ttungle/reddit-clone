@@ -18,7 +18,7 @@ export function PopularSubreddit(props: PopularSubredditProps) {
   return (
     <Card
       bodyStyle={{ padding: 12, paddingTop: 8 }}
-      className='rounded sticky top-[420px] max-h-[650px] cursor-pointer outline-1 outline outline-gray-200 mt-5'
+      className='rounded sticky top-[390px] max-h-[650px] cursor-pointer outline-1 outline outline-gray-200 mt-5'
     >
       <Typography.Text strong className='text-xs uppercase'>
         Popular Communities

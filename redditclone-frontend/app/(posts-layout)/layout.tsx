@@ -7,7 +7,7 @@ export interface PostLayoutProps {
 export default function PostLayout({ children }: PostLayoutProps) {
   return (
     <>
-      <main className='mt-16'>{children}</main>
+      <main className='mt-12'>{children}</main>
     </>
   );
 }

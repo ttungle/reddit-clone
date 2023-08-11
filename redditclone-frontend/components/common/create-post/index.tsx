@@ -14,7 +14,7 @@ export function CreatePost(props: CreatePostProps) {
     <>
       <Card
         bodyStyle={{ padding: 0 }}
-        className='rounded sticky top-28 max-h-[650px] cursor-pointer outline-1 outline outline-gray-200 hover:outline-1 hover:outline-gray-400 hover:outline'
+        className='rounded sticky top-20 max-h-[650px] cursor-pointer outline-1 outline outline-gray-200 hover:outline-1 hover:outline-gray-400 hover:outline'
       >
         <div className='h-[34px] w-full bg-[url(/img/create-post-banner.png)] bg-no-repeat bg-cover' />
 
